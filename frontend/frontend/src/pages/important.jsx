@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function Important() {
-    const headers={id:window.localStorage.getItem("id")}
+    const headers={id:window.localStorage.getItem("id"),authorization:window.localStorage.getItem("token")}
     const navigate=useNavigate()
     let[data,setdata]=useState()
 

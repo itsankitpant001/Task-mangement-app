@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function Completed() {
-    const headers={id:window.localStorage.getItem("id")}
+    const headers={id:window.localStorage.getItem("id"),authorization:window.localStorage.getItem("token")}
     const navigate=useNavigate()
     let[data,setdata]=useState()
 
@@ -39,7 +39,6 @@ function Completed() {
             <p className="card-text">
               {e.disc}
             </p>
-           Important<input type="checkbox" name="" id="" />
             <br></br>
           </div>
         </div>

@@ -1,21 +1,25 @@
+
 import { useEffect, useState } from 'react';
 import './LoginRegister.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate=useNavigate()
     useEffect(()=>{
-        if(window.localStorage.getItem("token"))
+        const isAuntheticated=localStorage.getItem("token")
+        if(isAuntheticated)
         {
             navigate("/")
         }
-    })
-    const navigate=useNavigate()
-    const [formData, setFormData] = useState({
+       },[])
+    
+   const [formData, setFormData] = useState({
         username: '',
         password: ''
     });
-
+      
+    
     const handleChange = (e) => {
         
         const { name, value } = e.target;
@@ -33,9 +37,13 @@ const Login = () => {
             console.log(response)
             window.localStorage.setItem("id",response.data.Id)
             window.localStorage.setItem("token",response.data.token)
-            if(response.data.token){navigate("/")}
-            else{
+            console.log(response)
+           
+            if(!response.data.token){
                 alert("Invalid credentials")
+            }
+            else{
+                navigate("/")
             }
             
             

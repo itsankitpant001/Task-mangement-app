@@ -4,6 +4,15 @@ import axios from 'axios'
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 function Home() {
+  const navigate=useNavigate()
+   useEffect(()=>{
+    const isAuntheticated=localStorage.getItem("token")
+    if(!isAuntheticated)
+    {
+        navigate("/login")
+    }
+   },[])
+    console.log(window.localStorage.getItem("id"))
     const headers={id:window.localStorage.getItem("id"),authorization:window.localStorage.getItem("token")}
    
     let[data,setdata]=useState()
@@ -13,7 +22,7 @@ function Home() {
         disc:'',
         userid:userid
     })
-    const navigate=useNavigate()
+    
 
 
      //to get all tasks
@@ -28,10 +37,7 @@ function Home() {
  }
     useEffect(()=>{
       //check wether the user is loged in or not
-        if(!window.localStorage.getItem("token"))
-        {
-            navigate('/login')
-        }
+        
       fetchdata()     
     },[])
 
