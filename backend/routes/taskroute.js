@@ -3,8 +3,6 @@ const taskmodel = require('../modal/taskSchema')
 const usermodel = require('../modal/userSchema')
 const verifyToken = require('./auth')
 
-
-
 const router=express.Router()
 
 //Create task
@@ -89,8 +87,6 @@ router.put("/update/imp/task/:id", async (req,res)=>{
          options:{sort:{createdAt:-1}}
       })
       res.status(200).json(UpdatedTask)
-   
-   
    } catch (error) {
       console.log(error)
    }
@@ -99,7 +95,6 @@ router.put("/update/imp/task/:id", async (req,res)=>{
 router.put("/update/comp/task/:id", async (req,res)=>{
    try {
       const id=req.params.id;
-      
       const taskData=await taskmodel.findById(id)
       const compData=taskData.complete
      await taskmodel.findByIdAndUpdate(id,{complete:!compData}) 

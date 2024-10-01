@@ -10,10 +10,10 @@ router.post('/signin',async (req,res)=>{
     const userNameExist= await usermodel.findOne({username})
     const emailExist= await usermodel.findOne({email})
     if(userNameExist){
-        res.status(500).json({message:"Username already exist"})
+        res.json({message:"Username already exist"})
     }
     if(emailExist){
-        res.status(500).json({message:"Email already exist"})
+        res.json({message:"Email already exist"})
     }
      else{
         const hashPass=await bcrypt.hash(req.body.password,10)
@@ -35,7 +35,7 @@ router.post('/login', async (req,res)=>{
     }
     const validPass=await bcrypt.compare(password,response.password)
     if(!validPass){
-       return res.status(500).json({message:"Invalid credentials"})
+        res.json({msg:"Invalid credentials"})
     }
     const token = jwt.sign({id:response._id},"secret")
     return res.json({token,Id:response._id})

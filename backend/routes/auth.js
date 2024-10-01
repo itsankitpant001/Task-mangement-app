@@ -11,6 +11,7 @@ const verifyToken = (req, res, next) => {
       });
     } else {
       res.sendStatus(401);
+      console.log("token not available")
     }
   };
   module.exports=verifyToken

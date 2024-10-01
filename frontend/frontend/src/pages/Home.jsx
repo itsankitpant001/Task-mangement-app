@@ -6,6 +6,7 @@ import { FaHeart } from "react-icons/fa";
 function Home() {
   const navigate=useNavigate()
    useEffect(()=>{
+    //check wether the user is loged in or not 
     const isAuntheticated=localStorage.getItem("token")
     if(!isAuntheticated)
     {
@@ -22,9 +23,6 @@ function Home() {
         disc:'',
         userid:userid
     })
-    
-
-
      //to get all tasks
     const fetchdata= async ()=>{
       try {
@@ -36,16 +34,14 @@ function Home() {
       }
  }
     useEffect(()=>{
-      //check wether the user is loged in or not
-        
+         
       fetchdata()     
     },[])
-
     //Logout user
-    const logout=()=>{
-         window.localStorage.clear("token")
-         navigate('/login')
-    }
+    // const logout=()=>{
+    //      window.localStorage.clear("token")
+    //      navigate('/login')
+    // }
     //Delete task
     const handelDelete=async(id)=>{
        const response=await axios.delete(`http://localhost:8000/delete/task/${id}`,{headers})
@@ -60,38 +56,29 @@ function Home() {
     const handelImportant=async (id)=>{
       const response=await axios.put(`http://localhost:8000/update/imp/task/${id}`,taskdata)
       setdata(response.data.task)
-
     }
     //Update task
     const handelUpdate=async (id)=>{
         const response=await axios.put(`http://localhost:8000/update/task/${id}`,taskdata,{headers}) 
-        setdata(response.data.task)
-        
+        setdata(response.data.task)    
     }
-
     //to create new task
     const handelOnchange=(e)=>{
         const {name,value}=e.target;
         settaskdata({...taskdata,[name]:value})
     }
-
     const handelsubmit=async(e)=>{
         e.preventDefault();
-
         try {
             const response=await axios.post("http://localhost:8000/",taskdata,{headers})
             setdata(response.data.updatedTask.task)
-        
         } catch (error) {
             console.log(error)
         }
     }
-    
         return (
             <>
             <div>
-              <button onClick={()=>(navigate("/important"))}>Important-task</button>
-              <button onClick={()=>(navigate("/completed"))}>Completed-task</button>
             <form onSubmit={handelsubmit}>
   <div className="mb-1">
     <label htmlFor="exampleInputEmail1" className="form-label">
@@ -121,19 +108,16 @@ function Home() {
   <button type="submit" className="btn btn-primary">
     Submit
   </button>
-  
 </form>
-<button onClick={logout} className="btn btn-danger">Logout</button>
-
+{/* <button onClick={logout} className="btn btn-danger">Logout</button> */}
             </div>
             <div className='row'>
                 {data?.map((e,index)=>(
-                    <div key={index} className='col-3'>
-                        
-                    <div className="card" style={{ width: "18rem" }}>
-          <div className="card-body">
-            <h5 className="card-title">{e.title}</h5>
-            <p className="card-text">
+                    <div  key={index} className='col-3'>     
+                    <div className="card " style={{ width: "18rem" }}>
+          <div className={e.complete===true?"bg-info card-body":"card-body"}>
+            <h5 className={e.complete===true?"card-title text-decoration-line-through ":"card-title"}>{e.title}</h5>
+            <p className={e.complete===true?"card-text text-decoration-line-through ":"card-text"}>
               {e.disc}
             </p>
        <div onClick={()=>handelImportant(e._id)}>{e.important===true?<FaHeart color='red' fontSize='2em' />:<CiHeart color='black' fontSize='2em'/>}</div>
@@ -141,13 +125,14 @@ function Home() {
            <button onClick={()=>handelComplete(e._id)} className={e.complete===false?"btn btn-danger":"btn btn-primary"}>
             {e.complete===false ? "In complete": "completed"}</button>
             <br></br>
-            <button onClick={()=>handelDelete(e._id)} className='btn btn-danger'>Delete</button>
             <button onClick={()=>handelUpdate(e._id)} className='btn btn-success'>update</button>
+            <br></br>
+            <button onClick={()=>handelDelete(e._id)} className='btn btn-danger'>Delete</button>
           </div>
         </div>
         </div>
-                ))}
-</div>
+              ))}
+        </div>
             </>
           )
         }

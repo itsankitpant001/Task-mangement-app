@@ -1,27 +1,22 @@
 
 import { useEffect, useState } from 'react';
-import './LoginRegister.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-
 const Login = () => {
     const navigate=useNavigate()
     useEffect(()=>{
+        //check wether the user is logged in or not
         const isAuntheticated=localStorage.getItem("token")
         if(isAuntheticated)
         {
             navigate("/")
         }
        },[])
-    
    const [formData, setFormData] = useState({
         username: '',
         password: ''
     });
-      
-    
-    const handleChange = (e) => {
-        
+    const handelOnchange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -29,7 +24,7 @@ const Login = () => {
         });
     };
 
-    const handleSubmit =async (e) => {
+    const handelSubmit =async (e) => {
         e.preventDefault();
 
         try {
@@ -44,43 +39,49 @@ const Login = () => {
             }
             else{
                 navigate("/")
-            }
-            
-            
+            }  
         } catch (error) {
             console.log(error)
-        }
-        
+        } 
     };
-
     return (
-        <div className="register-container">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
-                <input 
-                    type="text" 
-                    id="username" 
-                    name="username" 
-                    value={formData.username} 
-                    onChange={handleChange} 
-                    required 
-                />
-
-                <label htmlFor="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    value={formData.password} 
-                    onChange={handleChange} 
-                    required 
-                />
-
-                <button type="submit">Login</button>
-            </form>
+        <div>
+        <form onSubmit={handelSubmit}>
+        <div className="mb-3">
+        <label htmlFor="exampleInputEmail1" className="form-label">
+              Username
+        </label>
+        <input
+              type="text"
+              onChange={handelOnchange}
+              name='username'
+              className="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+        <div id="emailHelp" className="form-text">
         </div>
-    );
+        </div>
+        <div className="mb-3">
+        <label htmlFor="exampleInputPassword1" className="form-label">
+              Password
+        </label>
+        <input
+              type="password"
+              onChange={handelOnchange}
+              name='password'
+              className="form-control"
+              id="exampleInputPassword1"
+            />
+        </div>
+        <div className="mb-3 form-check">
+        </div>
+        <button type="submit" className="btn btn-primary">
+        Submit
+        </button>
+        </form>
+        </div>
+          )
 };
 
 export default Login;

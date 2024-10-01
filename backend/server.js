@@ -16,7 +16,7 @@ const URL=process.env.URL;
 mongoose.connect(URL).then(()=>{
     console.log("mongoDB is connected")
 }).catch((err)=>{
-    console.log(err)
+   console.log(err)
 })
 app.use(taskRoute)
 app.use(userRoute)
